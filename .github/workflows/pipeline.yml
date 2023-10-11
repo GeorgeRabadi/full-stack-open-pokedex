@@ -1,24 +1,16 @@
-name: Deployment pipeline
+name: Render Deploy
 
 on:
   push:
-    branches:
-      - master
-
-# name and trigger not shown anymore...
+  pull_request:
 
 jobs:
-  simple_deployment_pipeline:
-    runs-on: ubuntu-20.04
+  deploy:
+    runs-on: ubuntu-latest
     steps:
-
-
-      - name: Wait for Render Deployment
-        uses: bounceapp/render-action@0.6.0
+      - uses: ttskch/render-deploy@v1.0.0
         with:
-          render-token: ${{ secrets.RENDER_API_KEY }}
-          github-token: ${{ secrets.TOKEN }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
           service-id: ${{ secrets.RENDER_SERVICE_ID }}
-          retries: 20
-          wait: 16000
-          sleep: 30000
+          interval: 20 # optional
+          timeout: 300 # optional

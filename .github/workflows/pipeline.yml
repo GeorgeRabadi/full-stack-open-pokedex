@@ -27,8 +27,12 @@ jobs:
       - name: Test
         run: npm run test
 
-      - name: Deploy to production
-        uses: johnbeynon/render-deploy-action@v0.0.8
+      - name: Wait for Render Deployment
+        uses: bounceapp/render-action@0.6.0
         with:
-          service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
-          api-key: ${{ secrets.MY_RENDER_API_KEY }}
+          render-token: ${{ secrets.RENDER_API_KEY }}
+          github-token: ${{ secrets.TOKEN }}
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+          retries: 50
+          wait: 16000
+          sleep: 30000

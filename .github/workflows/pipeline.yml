@@ -26,6 +26,3 @@ jobs:
 
       - name: Test
         run: npm run test
-
-      - name: Start
-        run: npm run start-prod

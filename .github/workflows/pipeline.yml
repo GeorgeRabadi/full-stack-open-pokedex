@@ -1,28 +1,21 @@
-name: Deployment pipeline
+name: Render
+
 
 on:
   push:
     branches:
       - master
-
-# name and trigger not shown anymore...
-
 jobs:
-  simple_deployment_pipeline:
-    runs-on: ubuntu-20.04
+  deploy:
+    name: Wait for Deploy
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Wait for Render Deployment
+        uses: bounceapp/render-action@0.6.0
         with:
-          node-version: '16'
-      - name: Install dependencies 
-        run: npm install  
-
-      - name: Check style
-        run: npm run eslint
-
-      - name: Build
-        run: npm run build
-
-      - name: Test
-        run: npm run test
+          render-token: ${{ secrets.RENDER_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          service-id: ${{ secrets.RENDER_SERVICE_ID}}
+          retries: 20
+          wait: 16000
+          sleep: 30000
